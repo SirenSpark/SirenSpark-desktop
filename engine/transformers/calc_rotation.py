@@ -58,8 +58,8 @@ class CalcRotation:
         spark_df = convertGeomsToBinary(spark_df, self.types)
 
         types = {**self.types, **{self.new_column_name: {
-            "data_type": "number",
-            "pg_data_type": "number",
+            "data_type": "integer",
+            "pg_data_type": "integer",
         }}}
 
         return spark_df, types, 'success'
