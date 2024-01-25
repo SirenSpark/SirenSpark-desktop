@@ -6,6 +6,8 @@ from pyspark.sql import SparkSession
 from typing import Dict, Any, Optional
 from model_base import BaseStep
 import logging
+import pandas as pd
+from utils.pandas import toSpark
 
 
 class JSONReaderStep(BaseStep):
@@ -22,7 +24,12 @@ class JSONReader:
     def run(self):
         spark = SparkSession.builder.appName("SirenSpark").getOrCreate()
         try:
-            df = spark.read.json(self.filepath)
+            pandas_df = pd.read_json(self.filepath)
+
+            # Transformation vers spark
+            df = toSpark(pandas_df, [])
+
+            # Déduction des types de colonne
             column_types = {col: str(dtype) for col, dtype in df.dtypes}
             return df, column_types, "success"
         except Exception as e:
