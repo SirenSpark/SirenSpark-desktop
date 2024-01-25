@@ -6,6 +6,7 @@ from readers.csv_reader import CSVReaderStep
 from readers.xml_reader import XMLReaderStep
 from writers.postgis_writer import PostgisWriterStep
 from transformers.attribute_creator import AttributeCreatorStep
+from transformers.attribute_remover import AttributeRemoverStep
 from transformers.attribute_mapper import AttributeMapperStep
 from model_base import BaseStep
 
@@ -19,7 +20,7 @@ class Properties(BaseModel):
 class Definition(BaseModel):
     properties: Properties
     trigger: BaseStep
-    steps: List[Union[PostgisReaderStep, AttributeCreatorStep,
+    steps: List[Union[PostgisReaderStep, AttributeCreatorStep, AttributeRemoverStep,
                       AttributeMapperStep, PostgisWriterStep, JSONReaderStep, CSVReaderStep, XMLReaderStep]]
 
 

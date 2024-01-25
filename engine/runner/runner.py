@@ -15,6 +15,7 @@ from writers.json_file_writer import JSONFileWriter
 from writers.geojson_file_writer import GeoJSONFileWriter
 from writers.shapefile_writer import ShapefileWriter
 from transformers.attribute_creator import AttributeCreator
+from transformers.attribute_remover import AttributeRemover
 from transformers.attribute_mapper import AttributeMapper
 from transformers.joiner import Joiner
 from transformers.array_joiner import ArrayJoiner
@@ -91,6 +92,9 @@ class Runner:
             df, types, output = GeoJSONReader(**step.options).run()
         elif step.type == 'AttributeCreator':
             df, types, output = AttributeCreator(
+                df=curr_df, types=curr_types, properties=self.properties, **step.options).run()
+        elif step.type == 'AttributeRemover':
+            df, types, output = AttributeRemover(
                 df=curr_df, types=curr_types, properties=self.properties, **step.options).run()
         elif step.type == 'AttributeMapper':
             df, types, output = AttributeMapper(
@@ -176,8 +180,8 @@ class Runner:
                 "types": types
             }
             # print('types : ' + json.dumps(types))
-            # print('df.show(10) : ' + str(df.show(10)))
-            # print('df.count() : ' + str(df.count()))
+            print('df.show(10) : ' + str(df.show(10)))
+            print('df.count() : ' + str(df.count()))
 
         time_diff = (datetime.now() - start_time).total_seconds()
         logging.info(f"Total time taken by {step.type}: {time_diff} seconds")
