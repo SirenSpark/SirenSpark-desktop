@@ -7,3 +7,5 @@ psycopg2
 gdal
 ogr
 pandas
+geopandas
+tqdm
